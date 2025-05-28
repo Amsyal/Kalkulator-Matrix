@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matrix Operations</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <h2>Kalkulator Matriks</h2>
+
+      <label for="operation" class="operation">Pilih Operasi:</label>
+      <select id="operation">
+        <option value="add">Tambah</option>
+        <option value="subtract">Kurang</option>
+        <option value="multiply">Perkalian</option>
+        <option value="sarrus">Sarrus</option>
+        <option value="obe">OBE</option>
+        <option value="oke">OKE</option>
+        <option value="transpose">Transpose</option>
+      </select>
+
+      <div style="margin-top: 10px">
+        <label for="rows">Baris:</label>
+        <input type="number" id="rows" min="1" max="4" value="2" />
+
+        <label for="cols">Kolom:</label>
+        <input type="number" id="cols" min="1" max="4" value="2" />
+      </div>
+
+      <form id="matrixForm">
+        <div id="matrixWrapper" class="matrix-wraper"></div>
+      </form>
+      <button type="submit" onclick="calculate()">Calculate</button>
+      <div id="result"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
