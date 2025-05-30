@@ -178,7 +178,6 @@ function adjoin2x2(matrix) {
 }
 
 function adjoin3x3(matrix) {
-  //MASIH ERROR
   const m = matrix;
 
   const cofactor00 = m[1][1] * m[2][2] - m[1][2] * m[2][1];
