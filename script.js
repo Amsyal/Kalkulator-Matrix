@@ -92,16 +92,6 @@ function displayResult(matrix) {
   }
 }
 
-function sarrus(matrix) {
-  const p1 = matrix[0][0] * matrix[1][1] * matrix[2][2];
-  const p2 = matrix[0][1] * matrix[1][2] * matrix[2][0];
-  const p3 = matrix[0][2] * matrix[1][0] * matrix[2][1];
-  const n1 = matrix[0][2] * matrix[1][1] * matrix[2][0];
-  const n2 = matrix[0][0] * matrix[1][2] * matrix[2][1];
-  const n3 = matrix[0][1] * matrix[1][0] * matrix[2][2];
-  return p1 + p2 + p3 - (n1 + n2 + n3);
-}
-
 function addMatrix(A, B, rows, cols) {
   const result = [];
   for (let i = 0; i < rows; i++) {
@@ -142,30 +132,6 @@ function multiplyMatrix(A, B) {
   return result;
 }
 
-function obeMatrix(A, rows, cols) {
-  const result = [];
-  for (let i = 0; i < rows; i++) {
-    const row = [];
-    for (let j = 0; j < cols; j++) {
-      row.push(i === 0 ? A[i][j] * 2 : A[i][j]);
-    }
-    result.push(row);
-  }
-  return result;
-}
-
-function okeMatrix(A, rows, cols) {
-  const result = [];
-  for (let i = 0; i < rows; i++) {
-    const row = [];
-    for (let j = 0; j < cols; j++) {
-      row.push(j === 0 ? A[i][j] * 2 : A[i][j]);
-    }
-    result.push(row);
-  }
-  return result;
-}
-
 function transposeMatrix(A) {
   const result = [];
   const rows = A.length;
@@ -179,6 +145,20 @@ function transposeMatrix(A) {
     result.push(newRow);
   }
   return result;
+}
+
+function determinan2x2(A) {
+  return A[0][0] * A[1][1] - A[0][1] * A[1][0];
+}
+
+function sarrus(matrix) {
+  const p1 = matrix[0][0] * matrix[1][1] * matrix[2][2];
+  const p2 = matrix[0][1] * matrix[1][2] * matrix[2][0];
+  const p3 = matrix[0][2] * matrix[1][0] * matrix[2][1];
+  const n1 = matrix[0][2] * matrix[1][1] * matrix[2][0];
+  const n2 = matrix[0][0] * matrix[1][2] * matrix[2][1];
+  const n3 = matrix[0][1] * matrix[1][0] * matrix[2][2];
+  return p1 + p2 + p3 - (n1 + n2 + n3);
 }
 
 function adjoin2x2(matrix) {
@@ -198,10 +178,7 @@ function adjoin2x2(matrix) {
 }
 
 function adjoin3x3(matrix) {
-  if (matrix.length !== 3 || matrix[0].length !== 3 || matrix[1].length !== 3 || matrix[2].length !== 3) {
-    throw new Error("Matrix harus 3x3");
-  }
-
+  //MASIH ERROR
   const m = matrix;
 
   const cofactor00 = m[1][1] * m[2][2] - m[1][2] * m[2][1];
@@ -223,15 +200,25 @@ function adjoin3x3(matrix) {
   ];
 }
 
-// function inverseMatrix(A) {
-//   const result = [];
-//   const rows = A.length;
-//   const cols = A[0].length;
-//   const det = rows == 2 && cols == 2 ? A[0][0] * A[1][1] - A[0][1] * A[1][0] : sarrus(A);
+// MASIH ERROR
+function inverseMatrix(A) {
+  const rows = A.length;
+  const cols = A[0].length;
+  const det = rows == 2 && cols == 2 ? determinan2x2(A) : sarrus(A);
+  const seperDet = 1 / det;
+  const adjoin = rows == 2 && cols == 2 ? adjoin2x2(A) : adjoin3x3(A);
 
-//   if(det === 0) alert('Raiso!!!')
+  const result = [];
+  for (let i = 0; i < rows; i++) {
+    const inverseRow = [];
+    for (let j = 0; j < cols; j++) {
+      inverseRow.push(seperDet * adjoin[i][j]);
+    }
+    result.push(inverseRow);
+  }
 
-// }
+  return result;
+}
 
 function calculate() {
   const operation = document.getElementById("operation").value;
@@ -245,15 +232,35 @@ function calculate() {
   }
 
   let result;
-  if (operation === "add") result = addMatrix(A, B, rows, cols);
-  else if (operation === "subtract") result = subtractMatrix(A, B, rows, cols);
-  else if (operation === "multiply") result = multiplyMatrix(A, B);
-  else if (operation === "sarrus") {
-    if (rows === 3 && cols === 3) result = sarrus(A);
-    else return alert("Metode Sarrus hanya untuk matriks 3x3.");
-  } else if (operation === "obe") result = obeMatrix(A, rows, cols);
-  else if (operation === "oke") result = okeMatrix(A, rows, cols);
-  else if (operation === "transpose") result = transposeMatrix(A);
+  switch (operation) {
+    case "add":
+      result = addMatrix(A, B, rows, cols);
+      break;
+
+    case "subtract":
+      result = subtractMatrix(A, B, rows, cols);
+      break;
+
+    case "multiply":
+      result = multiplyMatrix(A, B);
+      break;
+
+    case "determinan":
+      result = rows === 2 && cols === 2 ? determinan2x2(A) : sarrus(A);
+      break;
+
+    case "transpose":
+      result = transposeMatrix(A);
+      break;
+
+    case "inverse":
+      result = inverseMatrix(A);
+      break;
+
+    default:
+      alert("Operasi tidak valid.");
+      return;
+  }
 
   displayResult(result);
 }
