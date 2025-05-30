@@ -1,4 +1,3 @@
-// Form handling and UI setup
 function generateMatrixForms() {
   const rows = parseInt(document.getElementById("rows").value);
   const cols = parseInt(document.getElementById("cols").value);
