@@ -198,7 +198,6 @@ function adjoin3x3(matrix) {
   ];
 }
 
-// MASIH ERROR
 function inverseMatrix(A) {
   const rows = A.length;
   const cols = A[0].length;
