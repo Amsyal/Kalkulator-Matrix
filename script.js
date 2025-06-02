@@ -56,25 +56,25 @@ function createResultForm(rows, cols) {
   let resultWrapper = document.getElementById("result");
   resultWrapper.innerHTML = "<h3>Hasil:</h3>";
 
-  const table = document.createElement("table");
-  table.id = "resultTable";
-  table.className = "matrix-table";
+  const resultDiv = document.createElement("div");
+  resultDiv.id = "resultTable";
+  resultDiv.className = "matrix-table";
 
   for (let i = 0; i < rows; i++) {
-    const row = document.createElement("tr");
+    const row = document.createElement("div");
+
     for (let j = 0; j < cols; j++) {
-      const cell = document.createElement("td");
       const input = document.createElement("input");
       input.type = "text";
+      input.className = "matrix-col";
       input.disabled = true;
       input.id = `result[${i}][${j}]`;
-      cell.appendChild(input);
-      row.appendChild(cell);
+      row.appendChild(input);
     }
-    table.appendChild(row);
+    resultDiv.appendChild(row);
   }
 
-  resultWrapper.appendChild(table);
+  resultWrapper.appendChild(resultDiv);
 }
 
 function displayResult(matrix) {
