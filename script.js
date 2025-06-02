@@ -65,7 +65,7 @@ function createResultForm(rows, cols) {
 
     for (let j = 0; j < cols; j++) {
       const input = document.createElement("input");
-      input.type = "text";
+      input.type = "number";
       input.className = "matrix-col";
       input.disabled = true;
       input.id = `result[${i}][${j}]`;
